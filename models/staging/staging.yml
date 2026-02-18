@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: stg_tpch_customers
+    description: "Customers TPCH limpiados (trim/upper), tipado fuerte y deduplicación por customer_id."
+    columns:
+      - name: customer_id
+        description: "PK del cliente en TPCH."
+        tests: [not_null, unique]
+      - name: customer_name
+        description: "Nombre normalizado a mayúsculas."
+        tests: [not_null]
+      - name: nation_id
+        description: "FK a nación."
+        tests: [not_null]
+      - name: updated_at
+        description: "Timestamp de carga del modelo staging."
+        tests: [not_null]
+
+  - name: stg_tpch_orders
+    description: "Órdenes TPCH limpiadas y deduplicadas por order_id."
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+      - name: order_date
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_tpch_lineitems
+    description: "Lineitems TPCH (nivel línea), limpieza, fechas normalizadas, dedupe por (order_id, line_number)."
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: line_number
+        tests: [not_null]
+      - name: ship_date
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_tpch_nations
+    description: "Nations TPCH, limpieza básica."
+    columns:
+      - name: nation_id
+        tests: [not_null, unique]
+      - name: nation_name
+        tests: [not_null]
+      - name: region_id
+        tests: [not_null]
+
+  - name: stg_tpch_regions
+    description: "Regions TPCH, limpieza básica."
+    columns:
+      - name: region_id
+        tests: [not_null, unique]
+      - name: region_name
+        tests: [not_null]
