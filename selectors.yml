@@ -1,0 +1,25 @@
+selectors:
+  - name: staging
+    definition:
+      method: path
+      value: models/staging
+
+  - name: intermediate
+    definition:
+      method: path
+      value: models/intermediate
+
+  - name: marts
+    definition:
+      method: path
+      value: models/marts
+
+  - name: dims
+    definition:
+      method: path
+      value: models/marts/dims
+
+  - name: facts
+    definition:
+      method: path
+      value: models/marts/facts
