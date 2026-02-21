@@ -13,7 +13,7 @@ target-path: "target"
 clean-targets: ["target", "dbt_packages"]
 
 models:
-  dbt_snowflake_power:
+  dbt_snowflake_project:   
     +persist_docs:
       relation: true
       columns: true
@@ -36,6 +36,5 @@ models:
         +on_schema_change: sync_all_columns
 
 snapshots:
-  dbt_snowflake_power:
-    +target_database: DBT_SCHEMA
-    +target_schema: SNAPSHOTS
+  dbt_snowflake_project:   
+    +target_schema: snapshots

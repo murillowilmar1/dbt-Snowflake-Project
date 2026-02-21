@@ -1,10 +1,10 @@
 with src as (
-    select * from {{ source('tpch', 'CUSTOMER') }}
+    select * from {{ ref('raw_customer_simulated') }}
 ),
 
 typed as (
     select
-        c_custkey::number as customer_id,
+        customer_id::number as customer_id,
         {{ clean_trim_upper('c_name') }} as customer_name,
         {{ clean_trim_upper('c_address') }} as customer_address,
         {{ clean_trim('c_phone') }} as customer_phone,
@@ -12,7 +12,7 @@ typed as (
         c_acctbal::number(18,2) as account_balance,
         {{ clean_trim_upper('c_mktsegment') }} as market_segment,
         {{ clean_trim_upper('c_comment') }} as comment,
-        current_timestamp() as updated_at
+        simulated_updated_at as updated_at
     from src
 ),
 

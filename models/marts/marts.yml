@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "Dimensión Customer (SCD2). Use is_current=true para versión vigente."
+    columns:
+      - name: customer_scd_key
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+      - name: is_current
+        tests: [not_null]
+
+  - name: dim_geography
+    description: "Dimensión Geography (SCD2)."
+    columns:
+      - name: geo_scd_key
+        tests: [not_null, unique]
+      - name: nation_id
+        tests: [not_null]
+      - name: region_id
+        tests: [not_null]
+      - name: is_current
+        tests: [not_null]
+
+  - name: dim_date
+    description: "Dimensión calendario."
+    columns:
+      - name: date_day
+        tests: [not_null, unique]
+
+  - name: fact_sales
+    description: "Fact incremental a nivel línea con keys SCD2."
+    columns:
+      - name: sales_line_key
+        tests: [not_null, unique]
+
+      - name: ship_date
+        tests: [not_null]
+
+      - name: net_amount
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: discount
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
+      - name: tax
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
+      - name: customer_scd_key
+        tests: [not_null]
+
+      - name: geo_scd_key
+        tests: [not_null]
+
+  - name: fact_orders
+    description: "Fact incremental a nivel orden con keys SCD2."
+    columns:
+      - name: order_fact_key
+        tests: [not_null, unique]
+
+      - name: order_id
+        tests: [not_null, unique]
+
+      - name: order_date
+        tests: [not_null]
+
+      - name: net_amount
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true

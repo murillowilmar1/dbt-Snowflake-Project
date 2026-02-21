@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: raw_customer_simulated
+    description: "Simula cambios en CUSTOMER para demostrar SCD2 (solo demo)."
+  - name: raw_nation_simulated
+    description: "Simula cambios en NATION para demostrar SCD2 (solo demo)."
