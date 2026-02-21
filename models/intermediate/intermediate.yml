@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: int_dim_customer
+    description: "Customer enriquecido con nation/region (base para snapshot SCD2)."
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_dim_geography
+    description: "Geografía base (nation + region) para snapshot SCD2."
+    columns:
+      - name: geo_id
+        tests: [not_null, unique]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_fact_sales
+    description: "Join lineitems + orders con métricas (base de fact_sales)."
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: line_number
+        tests: [not_null]
+      - name: ship_date
+        tests: [not_null]
+
+  - name: int_fact_orders
+    description: "Orders + agregados desde lineitems (base de fact_orders)."
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: order_date
+        tests: [not_null]

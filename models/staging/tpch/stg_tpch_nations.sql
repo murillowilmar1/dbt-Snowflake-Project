@@ -1,14 +1,14 @@
 with src as (
-    select * from {{ source('tpch', 'NATION') }}
+    select * from {{ ref('raw_nation_simulated') }}
 ),
 
 typed as (
     select
-        n_nationkey::number as nation_id,
+        nation_id::number as nation_id,
         {{ clean_trim_upper('n_name') }} as nation_name,
         n_regionkey::number as region_id,
         {{ clean_trim_upper('n_comment') }} as comment,
-        current_timestamp() as updated_at
+        simulated_updated_at as updated_at
     from src
 ),
 
